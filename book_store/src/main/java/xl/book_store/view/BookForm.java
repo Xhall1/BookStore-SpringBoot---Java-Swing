@@ -44,6 +44,9 @@ public class BookForm extends JFrame {
         editButton.addActionListener(e -> {
             editBook();
         });
+        deleteButton.addActionListener(e -> {
+            deleteBook();
+        });
     }
 
     private void startForm(){
@@ -122,6 +125,22 @@ public class BookForm extends JFrame {
             showMessage("The book was modified");
             clearForm();
             listBooks();
+        }
+    }
+
+    private void deleteBook(){
+        var line = bookTable.getSelectedRow();
+        if(line != -1) {
+            String idBook =
+                    bookTable.getModel().getValueAt(line, 0).toString();
+            var book = new Book();
+            book.setIdBook(Integer.parseInt(idBook));
+            serviceBook.deleteBook(book);
+            showMessage("Book " + idBook + " deleted.");
+            clearForm();
+            listBooks();
+        } else {
+            showMessage("There is no selection of a book");
         }
     }
 
