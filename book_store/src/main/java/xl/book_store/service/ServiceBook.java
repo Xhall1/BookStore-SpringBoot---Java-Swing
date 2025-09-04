@@ -1,11 +1,13 @@
 package xl.book_store.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import xl.book_store.model.Book;
 import xl.book_store.repository.RepositoryBook;
 
 import java.util.List;
 
+@Service
 public class ServiceBook implements IServiceBook{
 
     @Autowired
