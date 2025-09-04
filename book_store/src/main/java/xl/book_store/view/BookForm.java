@@ -5,12 +5,15 @@ import org.springframework.stereotype.Component;
 import xl.book_store.service.ServiceBook;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 @Component
 public class BookForm extends JFrame {
     ServiceBook serviceBook;
     private JPanel panel;
+    private JTable bookTable;
+    private DefaultTableModel bookTableModel;
 
     @Autowired
     public BookForm(ServiceBook serviceBook){
@@ -32,4 +35,11 @@ public class BookForm extends JFrame {
     }
 
 
+    private void createUIComponents() {
+        this.bookTableModel = new DefaultTableModel(0, 5);
+        String[] headers = {"id", "Book", "Author", "Price", "Existence"};
+        this.bookTableModel.setColumnIdentifiers(headers);
+
+        this.bookTable = new JTable(bookTableModel);
+    }
 }
