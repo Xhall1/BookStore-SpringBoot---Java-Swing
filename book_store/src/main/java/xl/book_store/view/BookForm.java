@@ -2,6 +2,7 @@ package xl.book_store.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xl.book_store.model.Book;
 import xl.book_store.service.ServiceBook;
 
 import javax.swing.*;
@@ -13,6 +14,13 @@ public class BookForm extends JFrame {
     ServiceBook serviceBook;
     private JPanel panel;
     private JTable bookTable;
+    private JTextField bookText;
+    private JTextField authorText;
+    private JTextField priceText;
+    private JTextField existenceText;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton deleteButton;
     private DefaultTableModel bookTableModel;
 
     @Autowired
@@ -20,6 +28,7 @@ public class BookForm extends JFrame {
         this.serviceBook = serviceBook;
         startForm();
 
+        addButton.addActionListener(e -> addBook());
     }
 
     private void startForm(){
@@ -34,6 +43,37 @@ public class BookForm extends JFrame {
         setLocation(x, y);
     }
 
+    private void addBook() {
+        if(bookText.getText().equals("")){
+            showMessage("Add a name");
+            bookText.requestFocusInWindow();
+            return;
+        }
+
+        var bookName = bookText.getText();
+        var author = authorText.getText();
+        var price = Double.parseDouble(priceText.getText());
+        var existence = Integer.parseInt(existenceText.getText());
+
+        var book = new Book(null, bookName, author, price, existence);
+        book.setBookName(bookName);
+        book.setAuthor(author);
+        book.setPrice(price);
+        book.setExistence(existence);
+        this.serviceBook.saveBook(book);
+        showMessage("Book added");
+        clearForm();
+    }
+
+    private void clearForm() {
+        bookText.setText("");
+        authorText.setText("");
+        priceText.setText("");
+        existenceText.setText("");
+    }
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
 
     private void createUIComponents() {
         this.bookTableModel = new DefaultTableModel(0, 5);
