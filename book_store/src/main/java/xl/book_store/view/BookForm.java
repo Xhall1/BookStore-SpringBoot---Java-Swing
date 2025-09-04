@@ -41,5 +41,23 @@ public class BookForm extends JFrame {
         this.bookTableModel.setColumnIdentifiers(headers);
 
         this.bookTable = new JTable(bookTableModel);
+
+        listBooks();
+    }
+
+    private void listBooks(){
+        bookTableModel.setRowCount(0);
+
+        var books = serviceBook.listBooks();
+        books.forEach((book)-> {
+           Object[] lineBook = {
+                book.getIdBook(),
+                book.getBookName(),
+                book.getAuthor(),
+                book.getPrice(),
+                book.getExistence()
+           };
+           this.bookTableModel.addRow(lineBook);
+        });
     }
 }
